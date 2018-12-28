@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.app{
+			padding-bottom:300px;
+		}
+	</style>
+</head>
+<body>
+	<!-- 
+		ng-app：指定一个angular应用程序，也就是声明了angular起作用的范围；
+
+		ng-init:进行数据的初始化，可以声明JS变量，值可以是number，string，boolean,array,object,声明的变量可以在angular应用程序中使用;
+
+		ng-model:将变量的值与DOM进行绑定，并且是双向绑定，变量值发生改变，DOM变化，DOM中的值改变，变量值变化；
+
+		{{}}，表达式，与js中的表达式相似，可以接收运算符，变量，将表达式的运行结果绑定在DOM上，这个绑定是单向的，DOM内容会根据变量而变化，但是显示内容变化并不会影响变量的值，也就是有从变量中读取值得功能，没有为变量赋值的能力；
+
+		ng-bind:将变量的值绑定到DOM；
+		一个页面通常只会有一个app；
+	 -->
+	 <div class="app" ng-app="app" ng-init="msg='Hello Angular!';name='';list=[{'str':'久旱逢甘霖'},{'str':'他乡遇故知'},{'str':'金榜题名时'},{'str':'洞房花烛夜'}];newList={name:'rose',age:'18',sex:'女'};text=''">
+	 	<h1>{{msg}},{{name}}</h1>
+	 	<h1 ng-bind="msg+','+nameyg
+	 	"></h1>
+	 	<input type="text" ng-model="name">
+	 	<ul>
+	 		<h1>四大喜</h1>
+	 		<li ng-repeat="x in list">{{x.str}}</li>
+	 	</ul>
+
+		<!-- 
+			
+			M=data ->声明了变量
+			V=html ->用户看到的内容
+			VM=vue ->通过VM使用M中的变量并在V中渲染
+				
+		 -->
+
+
+
+	 	<!-- 使用自定义指令，允许通过以下四种方式使用 -->
+	 	<!-- 1.元素的形式 -->
+	 	<my-component></my-component>
+	 	<!-- 2.通过属性 -->
+	 	<div my-component></div>
+	 	<!-- 3.通过类名 -->
+	 	<div class="my-component"></div>
+	 	<!-- 4.通过注释 -->
+	 	<!-- directive:my-component -->
+	 	<form name="myForm">
+	 		<input type="email" name="myEmail" ng-model="text">
+	 		<span ng-show="myForm.myEmail.$error.email">当前邮箱地址格式错误</span>
+	 	</form>
+	 	<p>error:{{myForm.myEmail.$error.email}}</p>
+	 	<p>valid:{{myForm.myEmail.$valid}}</p>
+
+	 	<p>dirty:{{myForm.myEmail.$dirty}}</p>
+	 	<!-- 通过点击使元素失去焦点的时候，返回true -->
+	 	<p>touched:{{myForm.myEmail.$touched}}</p>
+	 </div> 
+</body>
+<!-- 通过cdn引入angularjs文件 -->
+<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+<script>
+	//初始化app对象
+	let app = angular.module('app',[]);
+	//创建自定义指令，功能与效果和Vue的自定义组件一样
+	//自定义指令的名字，如果包含多个单词，请使用驼峰命名，在使用的时候，不要使用驼峰命名，需要用'-'将各个单词连接
+	app.directive('myComponent',function(){
+		return{
+			// 对自定义指令的设置,可以使用angular声明的变量以及angular提供的指令
+			// 对使用方式的配置，默认'EA'
+			restrict:'EAMC',
+			replace:true,//注释的代码是不被加载显示的，需要将replace得值设置为true来显示注释
+			template:'<h1>这是自定义指令，{{msg}}</h1>'
+		}
+	})
+</script>
+</html>
